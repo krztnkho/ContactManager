@@ -15,13 +15,14 @@
         </div>
     </div>
 </div>
+
 <div id="main-region" class="container">
 	<p>Here is static content in the web page. You'll notice that it gets
 replaced by our app as soon as we start it.</p>
 </div>
 
-	<script type="text/template" id="list-item-template">
-		<li> First Item </li>
+	<script type="text/template" id="contact-item-template">
+		<p><%= lastName %> , <%= firstName %></p>
 	</script>
 
 	<script src="./assets/js/vendor/jquery.js"></script>
@@ -33,18 +34,38 @@ replaced by our app as soon as we start it.</p>
 	<script type="text/javascript">
 		var ContactManager = new Marionette.Application();
 
+		ContactManager.Contact = Backbone.Model.extend({
+			defaults: {
+				firstName: '-',
+				lastName: '-',
+				phoneNumber: 'No phone number'
+			}
+		});
+
 		ContactManager.addRegions({
 			mainRegion: "#main-region"
 		});
 
-	     ContactManager.listView = Marionette.ItemView.extend({
-			template: "#list-item-template",
-			tagName: "ul"
+	     ContactManager.contactView = Marionette.ItemView.extend({
+
+			template: "#contact-item-template",
+			events : {
+				"click p" : "alertPhoneNumber"
+			},
+			alertPhoneNumber: function(){
+				alert(this.model.get("phoneNumber"));
+			}
 		});
 
 		ContactManager.on("initialize:after", function(){
 			console.log("ContactManager has just started. ");
-			var myView = new ContactManager.listView();
+			var myContact = new ContactManager.Contact({
+				firstName: "Kristine",
+				lastName: "Kho"
+			});
+			var myView = new ContactManager.contactView({
+				model: myContact
+			});
 			ContactManager.mainRegion.show(myView);
 
 		});

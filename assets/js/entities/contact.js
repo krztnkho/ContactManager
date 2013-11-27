@@ -1,13 +1,13 @@
 ContactManager.module("Entities", function(Entities, ContactManager, Backbone, Marionette, $, _ ){
 
-	var alertPrivate = function(msg){
+	/*var alertPrivate = function(msg){
 		alert("Private alert: "+msg);
 	};
 
 	Entities.alertPublic = function(msg){
 		alert("I will now call alertPrivate");
 		alertPrivate(msg);
-	};
+	};*/
 
 
 	Entities.Contact = Backbone.Model.extend({
